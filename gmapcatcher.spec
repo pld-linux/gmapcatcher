@@ -1,7 +1,7 @@
 Summary:	Offline maps viewer for multiple providers
 Name:		gmapcatcher
 Version:	0.7.5.0
-Release:	0.3
+Release:	1
 License:	GPL
 Group:		Applications
 URL:		http://code.google.com/p/gmapcatcher/
@@ -35,40 +35,40 @@ rm -rf $RPM_BUILD_ROOT
 %{__python} setup.py install \
 	--prefix=%{_prefix} \
 	--root=$RPM_BUILD_ROOT \
-	--install-scripts=%{_prefix}/lib/gmapcatcher
+	--install-scripts=%{_bindir}
 
 %py_ocomp $RPM_BUILD_ROOT%{py_sitescriptdir}
 %py_postclean
 
 rm -rf $RPM_BUILD_ROOT%{_docdir}/mapcatcher
 
-install -d $RPM_BUILD_ROOT%{_desktopdir}
+install -d $RPM_BUILD_ROOT{%{_desktopdir},%{_bindir}}
 cp -a %{name}.desktop $RPM_BUILD_ROOT%{_desktopdir}
+sed -i -e 's,Exec=mapcatcher,Exec=%{name},' $RPM_BUILD_ROOT%{_desktopdir}/%{name}.desktop
+sed -i -e 's,Icon=mapcatcher,Icon=%{name},' $RPM_BUILD_ROOT%{_desktopdir}/%{name}.desktop
 
-# Remove eronious folders from list of filenames
-install -d $RPM_BUILD_ROOT%{_bindir}
-ln -s %{_prefix}/lib/gmapcatcher/maps.py $RPM_BUILD_ROOT%{_bindir}/gmapcatcher
-ln -s %{_prefix}/lib/gmapcatcher/download.py $RPM_BUILD_ROOT%{_bindir}/gmapcatcher-cli
+mv $RPM_BUILD_ROOT%{_pixmapsdir}/{map,%{name}}.png
+mv $RPM_BUILD_ROOT%{_bindir}/{maps.py,%{name}}
+mv $RPM_BUILD_ROOT%{_bindir}/{download.py,%{name}downloader}
+mv $RPM_BUILD_ROOT%{_mandir}/man1/{mapcatcher.1,%{name}.1}.gz
+mv $RPM_BUILD_ROOT%{_mandir}/man1/{mapdownloader.1,%{name}downloader.1}.gz
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/gmapcatcher
-%attr(755,root,root) %{_bindir}/gmapcatcher-cli
-%{_mandir}/man1/mapcatcher.1*
-%{_mandir}/man1/mapdownloader.1*
-%{_desktopdir}/gmapcatcher.desktop
-%{_pixmapsdir}/map.png
-%{_pixmapsdir}/gmapcatcher
-%dir %{_prefix}/lib/gmapcatcher
-%attr(755,root,root) %{_prefix}/lib/gmapcatcher/download.py
-%attr(755,root,root) %{_prefix}/lib/gmapcatcher/maps.py
-%dir %{py_sitescriptdir}/gmapcatcher
-%{py_sitescriptdir}/gmapcatcher/*.py[co]
-%{py_sitescriptdir}/gmapcatcher/pyGPSD
-%{py_sitescriptdir}/gmapcatcher/mapServers
+%attr(755,root,root) %{_bindir}/%{name}
+%attr(755,root,root) %{_bindir}/%{name}downloader
+%{_mandir}/man1/%{name}.1*
+%{_mandir}/man1/%{name}downloader.1*
+%{_desktopdir}/%{name}.desktop
+%{_pixmapsdir}/%{name}.png
+%{_pixmapsdir}/%{name}
+%dir %{py_sitescriptdir}/%{name}
+%{py_sitescriptdir}/%{name}/*.py[co]
+%{py_sitescriptdir}/%{name}/pyGPSD
+%{py_sitescriptdir}/%{name}/mapServers
 %if "%{py_ver}" > "2.4"
 %{py_sitescriptdir}/GMapCatcher-*.egg-info
 %endif
