@@ -1,0 +1,27 @@
+Index: setup.py
+===================================================================
+--- setup.py.orig	2010-08-22 20:36:19.000000000 +0200
++++ setup.py	2010-10-23 02:27:20.452133800 +0200
+@@ -17,11 +17,11 @@ if os.name == "posix":
+                     ('share/applications', ['gmapcatcher.desktop']),
+                     ('share/man/man1', 
+                         ['man/mapcatcher.1.gz', 'man/mapdownloader.1.gz']),
+-                    ('share/pixmaps', ['images/mapcatcher.png']),
++                    ('share/pixmaps', ['images/map.png']),
+                     ('share/pixmaps/gmapcatcher',
+                     map(lambda(thestr): "images/" + thestr, os.listdir('images')))
+         ],
+-        scripts = ['mapcatcher', 'mapdownloader'],
++	scripts = ['maps.py', 'download.py'],
+         packages = ['gmapcatcher', 'gmapcatcher.mapServers', 
+                     'gmapcatcher.pyGPSD', 'gmapcatcher.pyGPSD.nmea',
+                     'gmapcatcher.pyGPSD.nmea.serial']
+@@ -36,7 +36,7 @@ else:
+         console = ['download.py'],
+         windows = [{
+             'script': 'maps.py',
+-            'icon_resources': [(1, "images\maps.ico")],
++            'icon_resources': [(1, "images/maps.ico")],
+         }],
+         options = {
+             'py2exe': {
