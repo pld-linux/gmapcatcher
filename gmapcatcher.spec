@@ -8,6 +8,8 @@ URL:		http://code.google.com/p/gmapcatcher/
 Source0:	http://gmapcatcher.googlecode.com/files/GMapCatcher-%{version}.tar.gz
 # Source0-md5:	f011f0016f8be4898a4efbf32173994f
 Patch0:		setup_py-paths.patch
+BuildRequires:	python-modules
+BuildRequires:	rpm-pythonprov
 Requires:	python-modules-sqlite
 Requires:	python-pygtk-gtk
 BuildArch:	noarch
